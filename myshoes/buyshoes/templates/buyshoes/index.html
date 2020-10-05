@@ -1,0 +1,9 @@
+{% if latest_shoe_list %}
+    <ul>
+    {% for shoe in latest_shoe_list %}
+        <li><a href="/buyshoes/{{ shoe.id }}/">{{ shoe.shoe_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No shoes are available.</p>
+{% endif %}
