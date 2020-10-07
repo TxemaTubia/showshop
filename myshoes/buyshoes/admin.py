@@ -7,8 +7,8 @@ from .models import Shoe
 
 admin.site.register(Shoe)
 
-from .models import purchase
+from .models import Purchase
 
-admin.site.register(purchase)
+admin.site.register(Purchase)
 
 # Register your models here.

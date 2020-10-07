@@ -18,7 +18,7 @@ class Shoe(models.Model):
 	def was_published_recently(self):
 		return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-class purchase(models.Model):
+class Purchase(models.Model):
     purchase = models.ForeignKey(Shoe, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
     total_amount = models.DecimalField(max_digits=8, decimal_places=4, default=0)

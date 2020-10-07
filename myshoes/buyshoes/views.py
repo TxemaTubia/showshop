@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-
-# Create your views here.
 from django.http import HttpResponse
+from django.http import Http404
+
+from django.shortcuts import get_object_or_404, render
+
 from django.template import loader
-from .models import Shoe
+
+from .models import Shoe, Purchase
 
 
 
@@ -25,11 +27,18 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def detail(request, shoe_id):
-    return HttpResponse("You're looking the shoe %s." % shoe_id)
+    #return HttpResponse("You're looking the shoe %s." % shoe_id)
+    try:
+        shoe = Shoe.objects.get(pk=shoe_id)
+    except Shoe.DoesNotExist:
+        raise Http404("Shoe does not exist")
+    return render(request, 'buyshoes/detail.html', {'shoe': shoe})
 
 def purchase(request, purchase_id):
-    response = "This is a purchase %s."
-    return HttpResponse(response % purchase_id)
+    #response = "This is a purchase %s."
+    #return HttpResponse(response % purchase_id)
+    purchase = get_object_or_404(Purchase, pk=purchase_id)
+    return render(request, 'buyshoes/purchase.html', {'purchase': purchase})
 
 def description(request, shoe_id):
 	my_shoe = Shoe.objects.get(id=shoe_id)
