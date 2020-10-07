@@ -10,7 +10,7 @@ from django.template import loader
 
 from .models import Shoe, Purchase
 
-
+from django.views.decorators.csrf import csrf_exempt
 
 #def index(request):
 #	latest_shoe_list = Shoe.objects.order_by('-pub_date')[:5]
@@ -26,6 +26,8 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+#ref myshoes/buyshoes/templates/buyshoes/detail.html
+@csrf_exempt
 def detail(request, shoe_id):
     #return HttpResponse("You're looking the shoe %s." % shoe_id)
     try:
@@ -33,6 +35,16 @@ def detail(request, shoe_id):
     except Shoe.DoesNotExist:
         raise Http404("Shoe does not exist")
     return render(request, 'buyshoes/detail.html', {'shoe': shoe})
+
+@csrf_exempt
+def shoe_detail(request, shoe_id):
+    try:
+    	shoe = Shoe.objects.get(pk=shoe_id)
+    except Shoe.DoesNotExist:
+        raise Http404("Shoe does not exist")
+    if request.method == 'GET':
+        serializer = DeviceSerializeer(shoe)
+        return JsonResponse(serializer.shoe_name)
 
 def purchase(request, purchase_id):
     #response = "This is a purchase %s."
